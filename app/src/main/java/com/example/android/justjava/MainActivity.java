@@ -7,6 +7,7 @@ package com.example.android.justjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import java.text.NumberFormat;
 
@@ -62,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String createOrderSummary(int price) {
         String priceFormat = NumberFormat.getCurrencyInstance().format(price);
-        return "Name: Kaptain Kunal" + "\nQuantity: " + quantity + "\nTotal: " + priceFormat + "\nThank you!";
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+        return "Name: Kaptain Kunal" + "\nAdd whipped cream? " + hasWhippedCream + "\nQuantity: " + quantity + "\nTotal: " + priceFormat + "\nThank you!";
     }
 
     /**

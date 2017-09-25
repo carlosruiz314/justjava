@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingStart="24dp"
-        android:text="Whipped cream" />
+        android:text="Whipped cream"
+        android:buttonTint="@color/colorPrimaryDark"/>
 
     <TextView
         android:layout_width="wrap_content"
