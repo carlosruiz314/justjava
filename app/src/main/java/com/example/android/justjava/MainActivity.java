@@ -4,11 +4,15 @@
  */
 package com.example.android.justjava;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.NumberFormat;
 
 /**
@@ -22,13 +26,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    int quantity = 0;
+    // Initialize public variables
+    int quantity = 1;
+    int coffeePrice = 5;
+    int whippedCreamPrice = 1;
+    int chocolatePrice = 2;
+
+    /**
+     * Inflate a toast message, which varies depending on the increment/decrement the user asked for
+     */
+    public void inflateToast(CharSequence message, int duration){
+        Context context = getApplicationContext();
+        Toast.makeText(context, message, duration).show();
+    }
 
     /**
      * This method increments the quantity of coffee cups ordered
      */
     public void increment(View view) {
-        quantity++;
+        if (quantity == 100){
+            CharSequence message = "Maximum 100 cups!";
+            inflateToast(message, Toast.LENGTH_SHORT);
+        }
+        quantity = Math.min(quantity + 1, 100);
         displayQuantity(quantity);
     }
 
@@ -36,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
      * This method decrements the quantity of coffee cups ordered
      */
     public void decrement(View view) {
-        quantity = Math.max(quantity - 1, 0);
+        if (quantity == 1){
+            CharSequence message = "Minimum 1 cup!";
+            inflateToast(message, Toast.LENGTH_SHORT);
+        }
+        quantity = Math.max(quantity - 1, 1);
         displayQuantity(quantity);
     }
 
@@ -45,7 +69,20 @@ public class MainActivity extends AppCompatActivity {
      */
     public void submitOrder(View view) {
         int price = calculatePrice();
-        String orderSummary = createOrderSummary(price);
+        // Get username
+        EditText userNameView = (EditText) findViewById(R.id.user_name);
+        String userName = userNameView.getText().toString();
+
+        // Has whipped cream?
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+
+        // Has chocolate?
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+
+        // Place order
+        String orderSummary = createOrderSummary(userName, price, hasWhippedCream, hasChocolate);
         displayMessage(orderSummary);
     }
 
@@ -54,18 +91,28 @@ public class MainActivity extends AppCompatActivity {
      *
      */
     private int calculatePrice() {
-        return quantity * 5;
+        int finalPrice = quantity * (coffeePrice + whippedCreamPrice + chocolatePrice);
+        return finalPrice;
     }
 
     /**
-     * Creates the order summary from the order price
+     * Create summary of the order.
+     *
+     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param addChocolate is whether or not the user wants chocolate topping
+     * @param price of the order
+     * @return text summary
      */
-
-    private String createOrderSummary(int price) {
+    private String createOrderSummary(String userName, int price, boolean addWhippedCream, boolean addChocolate) {
         String priceFormat = NumberFormat.getCurrencyInstance().format(price);
-        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
-        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
-        return "Name: Kaptain Kunal" + "\nAdd whipped cream? " + hasWhippedCream + "\nQuantity: " + quantity + "\nTotal: " + priceFormat + "\nThank you!";
+        String summary = "";
+        summary += "Name: " + userName;
+        summary += "\nAdd whipped cream? " + addWhippedCream;
+        summary += "\nAdd chocolate? " + addChocolate;
+        summary += "\nQuantity: " + quantity;
+        summary += "\nTotal: " + priceFormat;
+        summary += "\nThank you!";
+        return summary;
     }
 
     /**
