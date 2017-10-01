@@ -20,11 +20,8 @@
             android:inputType="textPersonName" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:text="Toppings"
-            android:textAllCaps="true" />
+            style="@style/HeaderTextStyle"/>
 
         <CheckBox
             android:id="@+id/whipped_cream_checkbox"
@@ -47,12 +44,8 @@
             android:buttonTint="@color/colorPrimaryDark"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
             android:text="Quantity"
-            android:textAllCaps="true" />
+            style="@style/HeaderTextStyle" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -83,12 +76,8 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
             android:text="Price"
-            android:textAllCaps="true" />
+            style="@style/HeaderTextStyle" />
 
         <TextView
             android:id="@+id/price_text_view"
